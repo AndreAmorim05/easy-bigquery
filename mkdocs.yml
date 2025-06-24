@@ -1,0 +1,20 @@
+site_name: Easy Bigquery
+
+repo_url: https://github.com/AndreAmorim05/easy-bigquery/tree/develop
+repo_name: AndreAmorim05/easy-bigquery
+edit_uri: tree/main/docs
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  palette:
+    scheme: default
+    primary: indigo
+    accent: indigo
+
+markdown_extensions:
+  - attr_list
+
+extra_css:
+  - stylesheets/extra.css
