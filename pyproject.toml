@@ -8,7 +8,12 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.13,<4.0"
 dependencies = [
-    "python-decouple (>=3.8,<4.0)"
+    "python-decouple (>=3.8,<4.0)",
+    "pandas (>=2.3.0,<3.0.0)",
+    "google-cloud-bigquery (>=3.31.0,<4.0.0)",
+    "db-dtypes (>=1.4.2,<2.0.0)",
+    "google-cloud-bigquery-storage (>=2.31.0,<3.0.0)",
+    "pandas-gbq (>=0.29.0,<0.30.0)",
 ]
 
 

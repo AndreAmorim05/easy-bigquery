@@ -22,9 +22,10 @@ class BigQueryPusher:
 
     Example:
         ```python
+        import pandas as pd
+
         from easy_bigquery.connector.connector import BigQueryConnector
         from easy_bigquery.pusher.pusher import BigQueryPusher
-        import pandas as pd
 
         # Create a sample DataFrame to upload.
         data = {'product_id': [101, 102], 'product_name': ['Gadget', 'Widget']}
@@ -34,14 +35,16 @@ class BigQueryPusher:
         try:
             connector.connect()
             # Define the destination table.
-            table_id = f'{connector.dataset}.my_products_table'
+            table_name = 'test_table'
 
             # The pusher needs an active connector.
             pusher = BigQueryPusher(connector)
             pusher.push(
                 df=df_to_push,
-                table_id=table_id,
-                write_disposition='WRITE_TRUNCATE'
+                project_id=connector.project_id,
+                dataset=connector.dataset,
+                table=table_name,
+                write_disposition='WRITE_TRUNCATE',
             )
             print(f'Successfully pushed data to {table_id}')
         finally:

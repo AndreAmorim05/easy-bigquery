@@ -4,8 +4,8 @@ import pandas as pd
 from google.cloud import bigquery as bq
 
 from easy_bigquery.connector.connector import BigQueryConnector
-from easy_bigquery.fetcher.fetcher import BigQueryFetcher
-from easy_bigquery.pusher.pusher import BigQueryPusher
+from easy_bigquery.workers.fetcher import BigQueryFetcher
+from easy_bigquery.workers.pusher import BigQueryPusher
 
 
 class BigQueryManager:
@@ -27,25 +27,28 @@ class BigQueryManager:
 
     Example:
         ```python
-        from easy_bigquery.context.manager import BigQueryManager
         import pandas as pd
+
+        from easy_bigquery.context.manager import BigQueryManager
 
         # Using the Manager as a context manager handles all
         # connection and disconnection logic automatically.
         with BigQueryManager() as bq:
             # 1. Fetch data from a public dataset.
-            sql = 'SELECT 'Welcome to easy_bigquery!' as message'
+            sql = f'SELECT * FROM {bq.connector.project_id}.{bq.connector.dataset}.{bq.connector.table} LIMIT 15'
             df_fetched = bq.fetch(sql)
-            print(df_fetched.iloc[0]['message'])
+            print(df_fetched.head())
 
             # 2. Push a new DataFrame to your dataset.
             data = {'user_id': [100], 'status': ['active']}
             df_to_push = pd.DataFrame(data)
-            table_id = f'{bq.connector.dataset}.user_status_py'
+            table_name = 'test_table'
             bq.push(
                 df=df_to_push,
-                table_id=table_id,
-                write_disposition='WRITE_APPEND'
+                project_id=bq.connector.project_id,
+                dataset=bq.connector.dataset,
+                table=table_name,
+                write_disposition='WRITE_APPEND',
             )
         ```
     """

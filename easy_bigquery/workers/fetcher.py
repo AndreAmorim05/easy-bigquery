@@ -22,8 +22,9 @@ class BigQueryFetcher:
     Example:
         ```python
         from easy_bigquery.connector.connector import BigQueryConnector
-        from easy_bigquery.fetcher.fetcher import BigQueryFetcher
-        sql = 'SELECT name, state FROM `bigquery-public-data.usa_names.usa_1910_current` LIMIT 3'
+        from easy_bigquery.workers.fetcher import BigQueryFetcher
+
+        sql = 'SELECT name, state FROM `bigquery-public-data.usa_names.usa_1910_current` LIMIT 5'
         connector = BigQueryConnector()
         try:
             connector.connect()
