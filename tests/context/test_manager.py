@@ -1,13 +1,13 @@
 import pytest
 
-from easy_bigquery.context.manager import BigQueryManager
+from easy_bigquery.context.manager import BQManager
 
 
 def test_manager_initialization(mocked_manager_dependencies):
     """Test if the Manager correctly initializes the Connector, passing kwargs."""
     mocks = mocked_manager_dependencies
 
-    manager = BigQueryManager(project_id='my-custom-project')
+    manager = BQManager(project_id='my-custom-project')
 
     # Verify that the Connector was instantiated with the correct arguments.
     mocks['connector_class'].assert_called_once_with(
@@ -23,7 +23,7 @@ def test_manager_initialization(mocked_manager_dependencies):
 def test_manager_context_entry_and_exit(mocked_manager_dependencies):
     """Test the context manager lifecycle: __enter__ and __exit__."""
     mocks = mocked_manager_dependencies
-    manager = BigQueryManager()
+    manager = BQManager()
 
     with manager as bq_manager:
         # --- __enter__ assertions ---
@@ -52,7 +52,7 @@ def test_manager_context_entry_and_exit(mocked_manager_dependencies):
 def test_manager_delegates_fetch_call(mocked_manager_dependencies):
     """Test if the Manager's fetch method delegates the call to the Fetcher."""
     mocks = mocked_manager_dependencies
-    manager = BigQueryManager()
+    manager = BQManager()
 
     with manager:
         sql_query = 'SELECT * FROM my_table'
@@ -69,7 +69,7 @@ def test_manager_delegates_push_call(
 ):
     """Test if the Manager's push method delegates the call to the Pusher."""
     mocks = mocked_manager_dependencies
-    manager = BigQueryManager()
+    manager = BQManager()
 
     with manager:
         manager.push(
@@ -93,7 +93,7 @@ def test_fetch_or_push_fails_outside_context(
     mocked_manager_dependencies, sample_dataframe
 ):
     """Test that calling fetch/push outside a `with` context raises an error."""
-    manager = BigQueryManager()
+    manager = BQManager()
 
     # Test fetch call outside context.
     with pytest.raises(

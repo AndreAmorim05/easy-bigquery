@@ -3,61 +3,61 @@ from typing import List, Literal, Optional
 import pandas as pd
 from google.cloud import bigquery as bq
 
-from easy_bigquery.connector.connector import BigQueryConnector
+from easy_bigquery.connector.connector import BQConnector
 from easy_bigquery.logger import logger
 
 
-class BigQueryPusher:
+class PushWorker:
     """
     Handles pushing pandas DataFrames to a BigQuery table.
 
     This class encapsulates the logic for loading DataFrames into
-    BigQuery. It requires an active, pre-configured `BigQueryConnector`
+    BigQuery. It requires an active, pre-configured `BQConnector`
     instance to perform its operations, separating the push logic from
     connection management.
 
     Attributes:
-        connector (BigQueryConnector): An active and connected
-            BigQueryConnector instance.
+        connector (BQConnector): An active and connected
+            BQConnector instance.
 
     Example:
         ```python
         import pandas as pd
 
-        from easy_bigquery.connector.connector import BigQueryConnector
-        from easy_bigquery.pusher.pusher import BigQueryPusher
+        from easy_bigquery import BQConnector
+        from easy_bigquery.workers import PushWorker
 
         # Create a sample DataFrame to upload.
         data = {'product_id': [101, 102], 'product_name': ['Gadget', 'Widget']}
         df_to_push = pd.DataFrame(data)
 
-        connector = BigQueryConnector()
+        connector = BQConnector()
         try:
             connector.connect()
             # Define the destination table.
             table_name = 'test_table'
 
-            # The pusher needs an active connector.
-            pusher = BigQueryPusher(connector)
-            pusher.push(
+            # The worker needs an active connector.
+            worker = PushWorker(connector)
+            worker.push(
                 df=df_to_push,
                 project_id=connector.project_id,
                 dataset=connector.dataset,
                 table=table_name,
                 write_disposition='WRITE_TRUNCATE',
             )
-            print(f'Successfully pushed data to {table_id}')
+            print(f'Successfully pushed data to {table_name}')
         finally:
             connector.close()
         ```
     """
 
-    def __init__(self, connector: BigQueryConnector):
+    def __init__(self, connector: BQConnector):
         """
-        Initializes the BigQueryPusher.
+        Initializes the PushWorker.
 
         Args:
-            connector: An initialized and connected `BigQueryConnector`
+            connector: An initialized and connected `BQConnector`
                 instance.
 
         Raises:
@@ -83,19 +83,28 @@ class BigQueryPusher:
         ] = 'WRITE_APPEND',
     ) -> None:
         """
-        Loads a DataFrame into a BigQuery table.
+        Loads a pandas DataFrame into a BigQuery table.
+
+        This method handles the entire process of uploading a DataFrame,
+        including job configuration, execution, and error checking.
 
         Args:
-            df: The pandas DataFrame to upload.
-            table_id: The destination table ID in the format
-                `dataset_id.table_id`.
-            schema: An optional list of `bigquery.SchemaField` objects.
-                If None, BigQuery will attempt to infer the schema.
-                Defaults to None.
-            write_disposition: Specifies the action if the table exists.
-                Valid values are 'WRITE_TRUNCATE', 'WRITE_APPEND',
-                'WRITE_EMPTY', 'WRITE_DISPOSITION_UNSPECIFIED', or
-                'WRITE_TRUNCATE_DATA'. Defaults to 'WRITE_APPEND'
+            df: The pandas DataFrame to be uploaded.
+            project_id: The GCP project ID. If None, the project ID from
+                the active connector is used.
+            dataset: The BigQuery dataset ID. If None, the dataset from
+                the active connector is used.
+            table: The destination table ID. If None, the table from the
+                active connector is used.
+            schema: An optional list of 'bigquery.SchemaField' objects.
+                If None, BigQuery attempts schema auto-detection.
+            write_disposition: Specifies the action if the table exists
+                (e.g., 'WRITE_APPEND', 'WRITE_TRUNCATE'). Defaults to
+                'WRITE_APPEND'.
+
+        Raises:
+            RuntimeError: If the BigQuery client is not initialized or if
+                the load job fails after execution.
         """
         if not self.connector.client:
             raise RuntimeError('BigQuery client not initialized.')

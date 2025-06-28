@@ -14,7 +14,7 @@ from easy_bigquery.core.config import (
 from easy_bigquery.logger.manager import logger
 
 
-class BigQueryConnector:
+class BQConnector:
     """
     Manages the low-level connection to Google BigQuery.
 
@@ -37,10 +37,10 @@ class BigQueryConnector:
     Example:
         ```python
         # Manual Connection Management
-        from easy_bigquery.connector.connector import BigQueryConnector
+        from easy_bigquery import BQConnector
 
         # The connector is instantiated but not yet connected.
-        connector = BigQueryConnector()
+        connector = BQConnector()
 
         try:
             # Manually establish the connection.
@@ -64,7 +64,7 @@ class BigQueryConnector:
         table: str = BQ_TABLE_NAME,
     ):
         """
-        Initializes the BigQueryConnector.
+        Initializes the BQConnector.
 
         Args:
             project_id: The GCP project ID. Defaults to the value from

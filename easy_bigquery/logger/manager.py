@@ -23,12 +23,7 @@ log_format = (
 )
 
 # Add a sink for console output with rich, colored formatting.
-logger.add(
-    sys.stderr,
-    level='INFO',
-    format=log_format,
-    colorize=True
-)
+logger.add(sys.stderr, level='INFO', format=log_format, colorize=True)
 
 # Add a sink for file output with built-in rotation and retention.
 # logger.add(

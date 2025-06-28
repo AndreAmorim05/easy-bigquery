@@ -1,16 +1,16 @@
 import pandas as pd
 import pytest
 
-from easy_bigquery.workers.fetcher import BigQueryFetcher
+from easy_bigquery.workers.fetch import FetchWorker
 
 
 def test_fetcher_initialization_success(mock_connector_tuple):
-    """Test successful BigQueryFetcher initialization with an active connector."""
+    """Test successful FetchWorker initialization with an active connector."""
     # An active connection is required before creating the Fetcher.
     connector, _ = mock_connector_tuple
     connector.connect()
 
-    fetcher = BigQueryFetcher(connector)
+    fetcher = FetchWorker(connector)
 
     assert fetcher.connector is connector
     assert fetcher.connector.client is not None
@@ -24,7 +24,7 @@ def test_fetcher_initialization_fails_if_not_connected(mock_connector_tuple):
     with pytest.raises(
         ConnectionError, match='Connector must be connected first.'
     ):
-        BigQueryFetcher(connector)
+        FetchWorker(connector)
 
 
 def test_fetch_with_storage_api_success(
@@ -33,7 +33,7 @@ def test_fetch_with_storage_api_success(
     """Test the fetch happy path, using the Storage API by default."""
     connector, mocks = mock_connector_tuple
     connector.connect()
-    fetcher = BigQueryFetcher(connector)
+    fetcher = FetchWorker(connector)
     sql_query = 'SELECT * FROM my_table'
 
     # Mock the query job to return the sample DataFrame.
@@ -60,7 +60,7 @@ def test_fetch_without_storage_api(mock_connector_tuple, sample_dataframe):
     """Test fetching data with the Storage API disabled."""
     connector, mocks = mock_connector_tuple
     connector.connect()
-    fetcher = BigQueryFetcher(connector)
+    fetcher = FetchWorker(connector)
     sql_query = 'SELECT name FROM my_table'
     mocks[
         'client_instance'
@@ -81,7 +81,7 @@ def test_fetch_passes_kwargs_to_dataframe(mock_connector_tuple):
     """Test if extra kwargs are correctly passed to to_dataframe()."""
     connector, mocks = mock_connector_tuple
     connector.connect()
-    fetcher = BigQueryFetcher(connector)
+    fetcher = FetchWorker(connector)
 
     fetcher.fetch('SELECT 1', progress_bar_type='tqdm')
 
@@ -99,7 +99,7 @@ def test_fetch_raises_runtime_error_if_client_disappears(
     """Test that fetch raises RuntimeError if the client becomes unavailable."""
     connector, _ = mock_connector_tuple
     connector.connect()
-    fetcher = BigQueryFetcher(connector)
+    fetcher = FetchWorker(connector)
 
     # Simulate an unexpected condition where the client disappears.
     fetcher.connector.client = None

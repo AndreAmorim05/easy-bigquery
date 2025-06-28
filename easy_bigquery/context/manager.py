@@ -3,12 +3,12 @@ from typing import Any, List, Literal, Optional
 import pandas as pd
 from google.cloud import bigquery as bq
 
-from easy_bigquery.connector.connector import BigQueryConnector
-from easy_bigquery.workers.fetcher import BigQueryFetcher
-from easy_bigquery.workers.pusher import BigQueryPusher
+from easy_bigquery.connector.connector import BQConnector
+from easy_bigquery.workers.fetch import FetchWorker
+from easy_bigquery.workers.push import PushWorker
 
 
-class BigQueryManager:
+class BQManager:
     """
     A high-level context manager for BigQuery operations.
 
@@ -19,21 +19,21 @@ class BigQueryManager:
     and Pusher classes.
 
     Attributes:
-        connector (BigQueryConnector): The underlying connector instance.
-        fetcher (Optional[BigQueryFetcher]): The fetcher instance,
+        connector (BQConnector): The underlying connector instance.
+        fetcher (Optional[FetchWorker]): The fetcher instance,
             available after the context is entered.
-        pusher (Optional[BigQueryPusher]): The pusher instance,
+        pusher (Optional[PushWorker]): The pusher instance,
             available after the context is entered.
 
     Example:
         ```python
         import pandas as pd
 
-        from easy_bigquery.context.manager import BigQueryManager
+        from easy_bigquery import BQManager
 
         # Using the Manager as a context manager handles all
         # connection and disconnection logic automatically.
-        with BigQueryManager() as bq:
+        with BQManager() as bq:
             # 1. Fetch data from a public dataset.
             sql = f'SELECT * FROM {bq.connector.project_id}.{bq.connector.dataset}.{bq.connector.table} LIMIT 15'
             df_fetched = bq.fetch(sql)
@@ -59,17 +59,17 @@ class BigQueryManager:
 
         Args:
             **kwargs: Keyword arguments to be passed down to the
-                `BigQueryConnector` constructor (e.g., `project_id`).
+                `BQConnector` constructor (e.g., `project_id`).
         """
-        self.connector = BigQueryConnector(**kwargs)
-        self.fetcher: Optional[BigQueryFetcher] = None
-        self.pusher: Optional[BigQueryPusher] = None
+        self.connector = BQConnector(**kwargs)
+        self.fetcher: Optional[FetchWorker] = None
+        self.pusher: Optional[PushWorker] = None
 
-    def __enter__(self) -> 'BigQueryManager':
+    def __enter__(self) -> 'BQManager':
         """Establishes connection and initializes service classes."""
         self.connector.connect()
-        self.fetcher = BigQueryFetcher(self.connector)
-        self.pusher = BigQueryPusher(self.connector)
+        self.fetcher = FetchWorker(self.connector)
+        self.pusher = PushWorker(self.connector)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:
@@ -78,7 +78,7 @@ class BigQueryManager:
 
     def fetch(self, query: str, **kwargs: Any) -> pd.DataFrame:
         """
-        High-level method to fetch data. Delegates to BigQueryFetcher.
+        High-level method to fetch data. Delegates to FetchWorker.
 
         Args:
             query: The SQL query to execute.
@@ -107,7 +107,7 @@ class BigQueryManager:
         ] = 'WRITE_APPEND',
     ) -> None:
         """
-        High-level method to push data. Delegates to BigQueryPusher.
+        High-level method to push data. Delegates to PushWorker.
 
         Args:
             df: The pandas DataFrame to upload.

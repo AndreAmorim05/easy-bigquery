@@ -1,6 +1,6 @@
 import json
 
-from easy_bigquery.connector.connector import BigQueryConnector
+from easy_bigquery.connector.connector import BQConnector
 
 
 def test_connector_initialization(mock_connector_tuple):

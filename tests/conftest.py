@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 import pandas as pd
 import pytest
 
-from easy_bigquery.connector.connector import BigQueryConnector
+from easy_bigquery.connector.connector import BQConnector
 
 # Define constants for mocking to ensure consistency across tests.
 MOCK_PROJECT_ID = 'test-project'
@@ -17,9 +17,9 @@ MOCK_CREDS_INFO_STR = (
 @pytest.fixture
 def mock_connector_tuple(mocker):
     """
-    Prepare a BigQueryConnector with mocked dependencies.
+    Prepare a BQConnector with mocked dependencies.
 
-    This fixture patches the external dependencies of the BigQueryConnector
+    This fixture patches the external dependencies of the BQConnector
     and yields both the connector instance and a dictionary of the mocks.
     This gives the test full control to trigger methods (Act) and verify
     calls on the mocks (Assert).
@@ -50,7 +50,7 @@ def mock_connector_tuple(mocker):
     mock_storage_client_class.return_value = mock_storage_instance
 
     # Instantiate the connector with test data. Note: .connect() is not called.
-    connector = BigQueryConnector(
+    connector = BQConnector(
         project_id=MOCK_PROJECT_ID,
         credentials_info=MOCK_CREDS_INFO_STR,
         dataset=MOCK_DATASET,
@@ -80,7 +80,7 @@ def sample_dataframe():
 @pytest.fixture
 def mocked_manager_dependencies(mocker):
     """
-    Mock the direct dependencies of the BigQueryManager.
+    Mock the direct dependencies of the BQManager.
 
     This fixture replaces the Connector, Fetcher, and Pusher classes
     within the manager's module. This allows testing the manager's
@@ -92,13 +92,13 @@ def mocked_manager_dependencies(mocker):
     """
     # Patch the classes in the module where they are imported and used.
     mock_connector_class = mocker.patch(
-        'easy_bigquery.context.manager.BigQueryConnector'
+        'easy_bigquery.context.manager.BQConnector'
     )
     mock_fetcher_class = mocker.patch(
-        'easy_bigquery.context.manager.BigQueryFetcher'
+        'easy_bigquery.context.manager.FetchWorker'
     )
     mock_pusher_class = mocker.patch(
-        'easy_bigquery.context.manager.BigQueryPusher'
+        'easy_bigquery.context.manager.PushWorker'
     )
 
     # Create mock instances to be returned by the mocked class constructors.

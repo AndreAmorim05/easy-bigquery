@@ -2,35 +2,35 @@ from typing import Any
 
 import pandas as pd
 
-from easy_bigquery.connector.connector import BigQueryConnector
+from easy_bigquery.connector.connector import BQConnector
 from easy_bigquery.logger import logger
 
 
-class BigQueryFetcher:
+class FetchWorker:
     """
     Handles fetching data from BigQuery into pandas DataFrames.
 
     This class encapsulates the logic for executing SQL queries. It
-    requires an active, pre-configured `BigQueryConnector` instance to
+    requires an active, pre-configured `BQConnector` instance to
     perform its operations. This design decouples the fetch logic from
     the connection management.
 
     Attributes:
-        connector (BigQueryConnector): An active and connected
-            BigQueryConnector instance.
+        connector (BQConnector): An active and connected
+            BQConnector instance.
 
     Example:
         ```python
-        from easy_bigquery.connector.connector import BigQueryConnector
-        from easy_bigquery.workers.fetcher import BigQueryFetcher
+        from easy_bigquery import BQConnector
+        from easy_bigquery.workers import FetchWorker
 
         sql = 'SELECT name, state FROM `bigquery-public-data.usa_names.usa_1910_current` LIMIT 5'
-        connector = BigQueryConnector()
+        connector = BQConnector()
         try:
             connector.connect()
-            # The fetcher needs an active connector to work.
-            fetcher = BigQueryFetcher(connector)
-            df = fetcher.fetch(sql)
+            # The worker needs an active connector to work.
+            worker = FetchWorker(connector)
+            df = worker.fetch(sql)
             print('Fetched DataFrame:')
             print(df)
         finally:
@@ -38,12 +38,12 @@ class BigQueryFetcher:
         ```
     """
 
-    def __init__(self, connector: BigQueryConnector):
+    def __init__(self, connector: BQConnector):
         """
-        Initializes the BigQueryFetcher.
+        Initializes the FetchWorker.
 
         Args:
-            connector: An initialized and connected `BigQueryConnector`
+            connector: An initialized and connected `BQConnector`
                 instance.
 
         Raises:

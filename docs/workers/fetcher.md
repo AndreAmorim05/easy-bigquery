@@ -1,1 +1,0 @@
-::: workers.fetcher.BigQueryFetcher

@@ -1,16 +1,16 @@
 import pytest
 from google.cloud import bigquery as bq
 
-from easy_bigquery.workers.pusher import BigQueryPusher
+from easy_bigquery.workers.push import PushWorker
 
 
 def test_pusher_initialization_success(mock_connector_tuple):
-    """Test successful BigQueryPusher initialization with an active connector."""
+    """Test successful PushWorker initialization with an active connector."""
     # An active connection is required before creating the Pusher.
     connector, _ = mock_connector_tuple
     connector.connect()
 
-    pusher = BigQueryPusher(connector)
+    pusher = PushWorker(connector)
 
     assert pusher.connector is connector
     assert pusher.connector.client is not None
@@ -24,14 +24,14 @@ def test_pusher_initialization_fails_if_not_connected(mock_connector_tuple):
     with pytest.raises(
         ConnectionError, match='Connector must be connected first.'
     ):
-        BigQueryPusher(connector)
+        PushWorker(connector)
 
 
 def test_push_success_with_defaults(mock_connector_tuple, sample_dataframe):
     """Test the push happy path, using default parameters and connector data."""
     connector, mocks = mock_connector_tuple
     connector.connect()
-    pusher = BigQueryPusher(connector)
+    pusher = PushWorker(connector)
 
     # Configure the mock to simulate a successful job.
     load_job_mock = mocks[
@@ -67,7 +67,7 @@ def test_push_with_explicit_parameters(mock_connector_tuple, sample_dataframe):
     """Test that explicit parameters override connector defaults."""
     connector, mocks = mock_connector_tuple
     connector.connect()
-    pusher = BigQueryPusher(connector)
+    pusher = PushWorker(connector)
     load_job_mock = mocks[
         'client_instance'
     ].load_table_from_dataframe.return_value
@@ -95,7 +95,7 @@ def test_push_with_explicit_schema(mock_connector_tuple, sample_dataframe):
     """Test that providing a schema disables 'autodetect'."""
     connector, mocks = mock_connector_tuple
     connector.connect()
-    pusher = BigQueryPusher(connector)
+    pusher = PushWorker(connector)
     load_job_mock = mocks[
         'client_instance'
     ].load_table_from_dataframe.return_value
@@ -124,7 +124,7 @@ def test_push_raises_runtime_error_on_job_failure(
     """Test that a RuntimeError is raised when the BQ job reports errors."""
     connector, mocks = mock_connector_tuple
     connector.connect()
-    pusher = BigQueryPusher(connector)
+    pusher = PushWorker(connector)
 
     # Configure the mock to simulate a job with errors.
     load_job_mock = mocks[
@@ -147,7 +147,7 @@ def test_push_raises_error_if_client_disappears(
     """Test that a RuntimeError is raised if the client is unavailable."""
     connector, _ = mock_connector_tuple
     connector.connect()
-    pusher = BigQueryPusher(connector)
+    pusher = PushWorker(connector)
 
     # Simulate the client "disappearing" after initialization.
     pusher.connector.client = None
