@@ -19,6 +19,9 @@ markdown_extensions:
 extra_css:
   - stylesheets/extra.css
 
+watch:
+  - easy_bigquery
+
 plugins:
 - mkdocstrings:
     handlers:
