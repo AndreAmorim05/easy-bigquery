@@ -12,18 +12,33 @@ theme:
     scheme: default
     primary: indigo
     accent: indigo
+  features:
+    - content.code.copy
+    - content.code.select
 
 markdown_extensions:
   - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
 
 extra_css:
-  - stylesheets/extra.css
+  - assets/stylesheets/extra.css
 
 watch:
   - easy_bigquery
 
 plugins:
+- macros
 - mkdocstrings:
     handlers:
       python:
         paths: [easy_bigquery]
+
+extra:
+  commands:
+    install: pip install easy_bigquery
