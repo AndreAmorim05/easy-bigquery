@@ -1,6 +1,6 @@
 [project]
 name = "easy-bigquery"
-version = "0.1.0"
+version = "0.1.0-alpha"
 description = "Easy BigQuery is a Python package designed to simplify interactions with Google BigQuery. It provides a high-level API for connecting, fetching, and pushing data, allowing you to focus on your data analysis instead of boilerplate code."
 license = "MIT"
 authors = [
