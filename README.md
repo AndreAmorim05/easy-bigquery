@@ -9,8 +9,8 @@
   <a href="https://pypi.org/project/easy-bigquery/">
     <img src="https://img.shields.io/pypi/v/easy-bigquery.svg" alt="PyPI">
   </a>
-  <a href="https://codecov.io/gh/your-username/easy-bigquery">
-    <img src="https://codecov.io/gh/your-username/easy-bigquery/branch/main/graph/badge.svg" alt="Codecov">
+  <a href="https://app.codecov.io/gh/AndreAmorim05/easy-bigquery">
+    <img src="https://app.codecov.io/gh/AndreAmorim05/easy-bigquery/branch/main/graph/badge.svg" alt="Codecov">
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
