@@ -1,11 +1,20 @@
 [project]
 name = "easy-bigquery"
 version = "0.1.0"
-description = ""
+description = "Easy BigQuery is a Python package designed to simplify interactions with Google BigQuery. It provides a high-level API for connecting, fetching, and pushing data, allowing you to focus on your data analysis instead of boilerplate code."
+license = "MIT"
 authors = [
     {name = "AndreAmorim05",email = "js.andreamorim@gmail.com"}
 ]
 readme = "README.md"
+classifier = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 3 - Alpha",
+]
 requires-python = ">=3.13,<4.0"
 dependencies = [
     "python-decouple (>=3.8,<4.0)",
@@ -17,6 +26,11 @@ dependencies = [
     "loguru (>=0.7.3,<0.8.0)",
 ]
 
+[tool.poetry.urls]
+"Home Page" = "https://github.com/AndreAmorim05/easy-bigquery"
+"Documentation" = "https://github.com/AndreAmorim05/easy-bigquery"
+"Source Code" = "https://github.com/AndreAmorim05/easy-bigquery"
+"Bug Tracker" = "https://github.com/AndreAmorim05/easy-bigquery/issues"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
