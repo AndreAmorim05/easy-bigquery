@@ -1,14 +1,41 @@
+# .readthedocs.yaml
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
 version: 2
-mkdocs:
-  configuration: mkdocs.yml
+
+# Set the OS, Python version, and other tools you might need
 build:
-  os: "ubuntu-22.04"
+  os: ubuntu-22.04
   tools:
     python: "3.13"
-  jobs:
-    post_create_environment:
-      # Install dependencies
-      - pip install poetry
-      - poetry config virtualenvs.create false
-    post_install:
-      - poetry install --only doc
+
+# Build documentation with MkDocs
+mkdocs:
+  configuration: mkdocs.yml
+  # You can uncomment this to make the build fail on warnings
+  # fail_on_warning: true
+
+# Tell Read the Docs how to install your project's dependencies using Poetry
+python:
+  install:
+    - method: poetry
+      path: .
+      extra_requirements:
+        # Install the dependencies from the 'doc' group in pyproject.toml
+        - doc
+
+
+# version: 2
+# mkdocs:
+#   configuration: mkdocs.yml
+# build:
+#   os: "ubuntu-22.04"
+#   tools:
+#     python: "3.13"
+#   jobs:
+#     post_create_environment:
+#       # Install dependencies
+#       - pip install poetry
+#       - poetry config virtualenvs.create false
+#     post_install:
+#       - poetry install --only doc

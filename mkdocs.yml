@@ -5,7 +5,7 @@ repo_name: AndreAmorim05/easy-bigquery
 edit_uri: tree/main/docs
 
 theme:
-  name: readthedocs # material
+  name: material # readthedocs
   logo: assets/logo.png
   favicon: assets/logo.png
   palette:
