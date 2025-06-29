@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/easy_bigquery_banner.png" alt="Easy BigQuery Banner">
+  <img src="https://raw.githubusercontent.com/AndreAmorim05/easy-bigquery/main/docs/assets/easy_bigquery_banner.png" alt="Easy BigQuery Banner">
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
     <img src="https://readthedocs.org/projects/easy-bigquery/badge/?version=latest" alt="Documentation Status">
   </a>
   <a href="https://pypi.org/project/easy-bigquery/">
-    <img src="https://img.shields.io/pypi/v/easy-bigquery.svg" alt="PyPI">
+    <img src="https://img.shields.io/pypi/v/easy-bigquery.svg" alt="PyPI Version">
   </a>
   <a href="https://codecov.io/gh/AndreAmorim05/easy-bigquery" > 
     <img src="https://codecov.io/gh/AndreAmorim05/easy-bigquery/graph/badge.svg?token=V2EPV1M70U"/> 
