@@ -16,7 +16,7 @@ else:
 
 # Configuration for Google BigQuery connection
 # These values can be set in the environment or in a .env file.
-BQ_JSON_CREDENTIALS = config('BQ_JSON_CREDENTIALS', cast=str)
-BQ_PROJECT_ID = config('BQ_PROJECT_ID', cast=str)
-BQ_TABLE_NAME = config('BQ_TABLE_NAME', cast=str)
-BQ_DATASET = config('BQ_DATASET', cast=str)
+BQ_JSON_CREDENTIALS = config('BQ_JSON_CREDENTIALS', cast=str, default=None)
+BQ_PROJECT_ID = config('BQ_PROJECT_ID', cast=str, default=None)
+BQ_TABLE_NAME = config('BQ_TABLE_NAME', cast=str, default=None)
+BQ_DATASET = config('BQ_DATASET', cast=str, default=None)
