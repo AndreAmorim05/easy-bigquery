@@ -27,8 +27,8 @@ dependencies = [
 ]
 
 [tool.poetry.urls]
-"Home Page" = "https://github.com/AndreAmorim05/easy-bigquery"
-"Documentation" = "https://github.com/AndreAmorim05/easy-bigquery"
+"Home Page" = "https://easy-bigquery.readthedocs.io/en/latest/"
+"Documentation" = "https://easy-bigquery.readthedocs.io/en/latest/"
 "Source Code" = "https://github.com/AndreAmorim05/easy-bigquery"
 "Bug Tracker" = "https://github.com/AndreAmorim05/easy-bigquery/issues"
 

@@ -6,6 +6,9 @@
   <a href="https://github.com/AndreAmorim05/easy-bigquery/actions/workflows/test_prod.yml">
     <img src="https://github.com/AndreAmorim05/easy-bigquery/actions/workflows/test_prod.yml/badge.svg" alt="CI">
   </a>
+  <a href="https://easy-bigquery.readthedocs.io/en/latest/">
+    <img src="https://readthedocs.org/projects/easy-bigquery/badge/?version=latest" alt="Documentation Status">
+  </a>
   <a href="https://pypi.org/project/easy-bigquery/">
     <img src="https://img.shields.io/pypi/v/easy-bigquery.svg" alt="PyPI">
   </a>
