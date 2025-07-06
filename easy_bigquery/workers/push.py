@@ -1,10 +1,10 @@
 from typing import List, Literal, Optional
 
-import pandas as pd
-from google.cloud import bigquery as bq
+import pandas as pd # type: ignore
+from google.cloud import bigquery as bq # type: ignore
 
 from easy_bigquery.connector.connector import BQConnector
-from easy_bigquery.logger import logger
+from easy_bigquery.logger import logger # type: ignore
 
 
 class PushWorker:
@@ -70,9 +70,9 @@ class PushWorker:
     def push(
         self,
         df: pd.DataFrame,
-        project_id: str = None,
-        dataset: str = None,
-        table: str = None,
+        project_id: str|None = None,
+        dataset: str|None = None,
+        table: str|None = None,
         schema: Optional[List[bq.SchemaField]] = None,
         write_disposition: Literal[
             'WRITE_TRUNCATE',
@@ -116,7 +116,8 @@ class PushWorker:
             schema=schema,
         )
 
-        full_table_path = f'{project_id or self.connector.project_id}.{dataset or self.connector.dataset}.{table or self.connector.table}'
+        full_table_path = f'{project_id or self.connector.project_id}.{
+            dataset or self.connector.dataset}.{table or self.connector.table}'
         logger.info(f'Loading {len(df)} rows to {full_table_path}...')
 
         load_job = self.connector.client.load_table_from_dataframe(

@@ -1,8 +1,8 @@
 import os
 import pathlib
 
-from decouple import Config, RepositoryEnv
-from decouple import config as cfg
+from decouple import Config, RepositoryEnv # type: ignore
+from decouple import config as cfg # type: ignore
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BASE_DIR = ROOT.parent

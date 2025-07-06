@@ -9,7 +9,7 @@ and file outputs in a simple and efficient manner.
 """
 import sys
 
-from loguru import logger
+from loguru import logger # type: ignore
 
 # Remove the default handler to gain full control over the sinks.
 logger.remove()
