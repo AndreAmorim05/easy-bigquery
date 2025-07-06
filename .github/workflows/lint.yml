@@ -1,0 +1,44 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install --with dev --without doc
+
+      - name: Run linting
+        run: |
+          poetry run blue --check --diff .
+          poetry run isort --check --diff .
+          poetry run flake8 easy_bigquery/ tests/
+
+      - name: Run security checks
+        run: |
+          poetry run bandit -r easy_bigquery/ -f json -o bandit-report.json || true
+          poetry run bandit -r easy_bigquery/ -f txt
+
+      - name: Run type checking
+        run: |
+          poetry run mypy easy_bigquery/ --ignore-missing-imports 
