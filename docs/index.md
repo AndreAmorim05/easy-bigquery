@@ -1,4 +1,5 @@
 # Easy Bigquery
+
 ![Easy Bigquery Logo](assets/easy_bigquery_banner.png){widht:500 .center}
 
 ## Overview
@@ -41,7 +42,7 @@ poetry install
 
 To use **Easy BigQuery**, you need to set up your environment variables. Create a `.env` file in your project's root directory with the following content:
 
-```
+```env
 # BigQuery
 BQ_PROJECT_ID=your-gcp-project-id
 BQ_DATASET=your-bigquery-dataset
