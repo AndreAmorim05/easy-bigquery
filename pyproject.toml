@@ -14,6 +14,10 @@ classifier = [
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Development Status :: 3 - Alpha",
+    "Operating System :: OS Independent",
+    "Topic :: Database",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: System :: Distributed Computing",
 ]
 requires-python = ">=3.13,<4.0"
 dependencies = [
@@ -26,11 +30,15 @@ dependencies = [
     "loguru (>=0.7.3,<0.8.0)",
 ]
 
+[project.scripts]
+easy-bigquery = "easy_bigquery.cli:main"
+
 [tool.poetry.urls]
 "Home Page" = "https://easy-bigquery.readthedocs.io/en/latest/"
 "Documentation" = "https://easy-bigquery.readthedocs.io/en/latest/"
 "Source Code" = "https://github.com/AndreAmorim05/easy-bigquery"
 "Bug Tracker" = "https://github.com/AndreAmorim05/easy-bigquery/issues"
+"Changelog" = "https://github.com/AndreAmorim05/easy-bigquery/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -43,6 +51,10 @@ blue = "^0.9.1"
 isort = "^6.0.1"
 taskipy = "^1.14.1"
 pytest-mock = "^3.14.1"
+flake8 = "^7.0.0"
+mypy = "^1.8.0"
+bandit = "^1.7.5"
+pre-commit = "^3.6.0"
 
 
 [tool.poetry.group.doc.dependencies]
@@ -63,7 +75,12 @@ line_length = 79
 
 [tool.taskipy.tasks]
 lint = "blue --check --diff . && isort --check --diff ."
+lint-full = "blue --check --diff . && isort --check --diff . && flake8 easy_bigquery/ tests/"
+security = "bandit -r easy_bigquery/ -f txt"
+type-check = "mypy easy_bigquery/ --ignore-missing-imports"
 docs = "mkdocs serve"
-pre_test = "task lint"
+pre_test = "task lint-full"
 test = "pytest -s -x --cov=easy_bigquery -vv"
+test-integration = "pytest tests/integration/ -m integration -v"
 post_test = "coverage html"
+install-hooks = "pre-commit install"
