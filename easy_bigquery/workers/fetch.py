@@ -1,9 +1,9 @@
 from typing import Any
 
-import pandas as pd
+import pandas as pd # type: ignore
 
 from easy_bigquery.connector.connector import BQConnector
-from easy_bigquery.logger import logger
+from easy_bigquery.logger import logger # type: ignore
 
 
 class FetchWorker:
@@ -24,7 +24,8 @@ class FetchWorker:
         from easy_bigquery import BQConnector
         from easy_bigquery.workers import FetchWorker
 
-        sql = 'SELECT name, state FROM `bigquery-public-data.usa_names.usa_1910_current` LIMIT 5'
+        sql = 'SELECT name, state FROM `bigquery-public-data.usa_names.usa_1910_current`
+        LIMIT 5'
         connector = BQConnector()
         try:
             connector.connect()

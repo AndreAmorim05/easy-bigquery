@@ -1,7 +1,7 @@
 from typing import Any, List, Literal, Optional
 
-import pandas as pd
-from google.cloud import bigquery as bq
+import pandas as pd # type: ignore
+from google.cloud import bigquery as bq # type: ignore
 
 from easy_bigquery.connector.connector import BQConnector
 from easy_bigquery.workers.fetch import FetchWorker
@@ -35,7 +35,8 @@ class BQManager:
         # connection and disconnection logic automatically.
         with BQManager() as bq:
             # 1. Fetch data from a public dataset.
-            sql = f'SELECT * FROM {bq.connector.project_id}.{bq.connector.dataset}.{bq.connector.table} LIMIT 15'
+            sql = f'SELECT * FROM {bq.connector.project_id}.{
+                bq.connector.dataset}.{bq.connector.table} LIMIT 15'
             df_fetched = bq.fetch(sql)
             print(df_fetched.head())
 

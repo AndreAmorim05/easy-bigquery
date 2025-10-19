@@ -12,8 +12,8 @@
   <a href="https://pypi.org/project/easy-bigquery/">
     <img src="https://img.shields.io/pypi/v/easy-bigquery.svg" alt="PyPI Version">
   </a>
-  <a href="https://codecov.io/gh/AndreAmorim05/easy-bigquery" > 
-    <img src="https://codecov.io/gh/AndreAmorim05/easy-bigquery/graph/badge.svg?token=V2EPV1M70U"/> 
+  <a href="https://codecov.io/gh/AndreAmorim05/easy-bigquery" >
+    <img src="https://codecov.io/gh/AndreAmorim05/easy-bigquery/graph/badge.svg?token=V2EPV1M70U"/>
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
@@ -60,7 +60,7 @@ poetry install
 
 To use **Easy BigQuery**, you need to set up your environment variables. Create a `.env` file in your project's root directory with the following content:
 
-```
+```env
 # BigQuery
 BQ_PROJECT_ID=your-gcp-project-id
 BQ_DATASET=your-bigquery-dataset
@@ -190,9 +190,59 @@ finally:
     connector.close()
 ```
 
+
+
+## Development
+
+### Setting up the development environment
+
+```bash
+# Clone the repository
+git clone https://github.com/AndreAmorim05/easy-bigquery.git
+cd easy-bigquery
+
+# Install dependencies
+poetry install --with dev
+
+# Install pre-commit hooks
+poetry run task install-hooks
+
+# Run tests
+poetry run task test
+
+# Run linting
+poetry run task lint-full
+
+# Run security checks
+poetry run task security
+
+# Run type checking
+poetry run task type-check
+```
+
+### Running integration tests
+
+Integration tests require real BigQuery credentials:
+
+```bash
+# Set up credentials
+export BQ_JSON_CREDENTIALS='{"type": "service_account", ...}'
+export BQ_PROJECT_ID='your-project-id'
+export BQ_DATASET='your-dataset'
+
+# Run integration tests
+poetry run task test-integration
+```
+
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request on our [GitHub repository](https://github.com/AndreAmorim05/easy-bigquery).
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+Before contributing, please:
+
+1. Read our [Code of Conduct](CODE_OF_CONDUCT.md)
+2. Check our [Security Policy](SECURITY.md)
+3. Review our [Contributing Guidelines](CONTRIBUTING.md)
 
 ## License
 

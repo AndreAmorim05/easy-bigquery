@@ -1,9 +1,9 @@
 import json
 from typing import Any, Dict, Optional
 
-from google.cloud import bigquery as bq
-from google.cloud.bigquery_storage import BigQueryReadClient
-from google.oauth2 import service_account
+from google.cloud import bigquery as bq # type: ignore
+from google.cloud.bigquery_storage import BigQueryReadClient # type: ignore
+from google.oauth2 import service_account # type: ignore
 
 from easy_bigquery.core.config import (
     BQ_DATASET,
@@ -11,7 +11,7 @@ from easy_bigquery.core.config import (
     BQ_PROJECT_ID,
     BQ_TABLE_NAME,
 )
-from easy_bigquery.logger.manager import logger
+from easy_bigquery.logger.manager import logger # type: ignore
 
 
 class BQConnector:
